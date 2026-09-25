@@ -1,6 +1,3 @@
-## Battery-Software-Logic-Survival-Governance-Mapping-Paper — v1.0 Final (한글 원본, 수정본)
-
-**변경사항:** 5장 수식 표기 S̄_total → S_bar_total(렌더링 안전 표기)로 수정, 9장 이력 반영.
 
 ---
 
