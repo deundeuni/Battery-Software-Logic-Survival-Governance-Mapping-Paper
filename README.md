@@ -1,6 +1,3 @@
-## Battery-Software-Logic-Survival-Governance-Mapping-Paper — v1.0 Final (English / Reference Translation) — Revised
-
-**변경사항:** CWP-Battery-Swap 하이픈 표기로 전체 통일, S̄_total → S_bar_total(안전 표기)로 5장 수식 수정.
 
 ---
 
