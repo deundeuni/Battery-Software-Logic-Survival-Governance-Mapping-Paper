@@ -1,6 +1,4 @@
----
-
- **Original Authority Notice:** The Korean original is the authoritative version; this English translation is for reference only, per the document's own Originality Clause (Chapter 7, Section 4)
+> **Original Authority Notice:** The Korean original is the authoritative version; this English translation is for reference only, per the document's own Originality Clause (Chapter 7, Section 4).
 
 ---
 
