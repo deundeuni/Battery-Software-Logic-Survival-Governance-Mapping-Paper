@@ -1,26 +1,29 @@
-
 ---
 
 > **Original Authority Notice:** The Korean original is the authoritative version; this English translation is for reference only, per the document's own Originality Clause (Chapter 7, Section 4).
 
 ---
 
-[Idea White Paper] Conceptual Mapping of the W_{batt} Residual-Capacity Leveling Algorithm and Physical Execution via CWP-Battery-Swap for Survival Governance
+# [Idea White Paper] Conceptual Mapping of the W_{batt} Residual-Capacity Leveling Algorithm and Physical Execution via CWP-Battery-Swap for Survival Governance
 
 Original Design: deundeuni (Human Architect) | Affiliated Organization: deundeunilab
 Repository / Identifier: Battery-Software-Logic-Survival-Governance-Mapping-Paper | First Recorded / Prior-Art Declaration Date: 2026-09-26
 Document Type: Idea White Paper (Track 2) | Version: v1.0 Final (Take2 Final Revision)
 Philosophical Lineage: Continuation of soma-moa's "Survive Together" philosophy; linked to CWP-Battery-Swap / POWER_SURVIVAL_SPEC
 Technical Protocol Identifier: Battery-Software-Logic-Survival-Governance-Mapping-Paper
-License: Creative Commons Attribution 4.0 International (CC BY 4.0) and DPL (Defensive Publication License)
+License: CC BY 4.0 (Text) / Apache License 2.0 (Derived Code & Execution Implementation)
 Drafting Utility: Passive Execution & Structuring Utilities
 Originality Clause: The Korean original is the authoritative text; translations are for reference only.
+
+---
 
 **Chapter 1: Overview and Philosophical Background**
 
 This white paper aims to establish a hierarchical mapping structure and survival governance between an upper-layer software algorithm (W_{batt}) that prioritizes leveling of the battery pack with the lowest residual capacity, and a hardware low-impact docking mechanism (CWP-Battery-Swap), for use in emergency operating environments of distributed devices and mobile systems.
 
 A single-battery-pack-centric, high-power direct-coupled structure carries an inherent structural risk: localized cell degradation or power starvation can lead to immediate total System Blackout. This proposal does not aim to invent a specific cell chemistry or a single proprietary hardware device. Instead, it is designed to maximize system survivability and secure independent defensive rights scope by clearly separating the software-side residual-capacity-leveling selection logic from the hardware-side physical swap execution unit (SW–HW Layer Decoupling).
+
+---
 
 **Chapter 2: SW–HW Layer Separation Structure and CWP-Battery-Swap Process Chain Boundary Definition**
 
@@ -36,6 +39,8 @@ A single-battery-pack-centric, high-power direct-coupled structure carries an in
 * Isolated description from body logic — To avoid direct causal conflict with the body-text W_{batt} software selection algorithm, the CWP-Battery-Swap process chain is placed solely within background explanation and footnote sections.
 * Footnote statement — CWP-Battery-Swap is the final swap stage operating on top of the continuous process of CWP-Entry and CWP-Rolling-Self-Align; this document addresses only the physical execution of W_{batt} at this swap stage.
 
+---
+
 **Chapter 3: Anti-Freezing and Always-On Judgment Domain for Polar Environments**
 
 *1. Trigger and Sensing Logic Based on Non-Contact Sensing (Chiplet / Always-On SOS Layer)*
@@ -48,6 +53,8 @@ A single-battery-pack-centric, high-power direct-coupled structure carries an in
 * Intermittent low-power micro-rotation applied — Continuous idle spinning is not pursued; instead, intermittent low-power micro-rotation is performed, consistent with soma-moa's power-conservation principles (selective idle windows, early cutoff).
 * Mechanical scope clarification — This drive does not address internal cell chemical reactions or electrolyte state, and is limited to mechanical protective control that preventively mitigates freezing and physical stiffening at the docking mechanism's joint.
 
+---
+
 **Chapter 4: Lowest-Residual-Capacity-Priority Leveling (W_{batt}) and Distributed Survival Control**
 
 *1. Execution Mapping of the W_{batt} Leveling Algorithm*
@@ -55,22 +62,26 @@ A single-battery-pack-centric, high-power direct-coupled structure carries an in
 * Priority acceptance of the lowest-residual pack — Among multiple distributed battery modules, the W_{batt} algorithm designates the zone with the lowest effective SOC as the priority target for CWP-Battery-Swap docking and charge/discharge leveling.
 * Prevention of localized starvation — Prevents system-wide shutdown caused by concentrated power load on a specific battery module, and controls to maintain power balance across modules as the top priority.
 
+---
+
 **Chapter 5: Mathematical Weighting Model and Control Mapping**
 
 *1. Battery Pack Power-Leveling Weight Formula (W_{batt, i})*
 
 Among multiple battery packs i, the base weighting model for selecting the target pack for CWP-Battery-Swap docking physical swap and priority power leveling is as follows:
 
-**W_{batt,i} = max(0, S_bar_total − S_pack,i)**
+$$W_{batt,i} = \max(0, S_{bar\_total} - S_{pack,i})$$
 
-The normalized weighting model applied when numerical normalization is required by the upper control system (applied only when S_pack,i < S_bar_total) is as follows:
+The normalized weighting model applied when numerical normalization is required by the upper control system (applied only when $S_{pack,i} < S_{bar\_total}$) is as follows:
 
-**W_{batt,i} = (S_bar_total − S_pack,i) / S_bar_total**
+$$W_{batt,i} = \frac{S_{bar\_total} - S_{pack,i}}{S_{bar\_total}}$$
 
 * W_{batt,i} — Priority swap and leveling weight of the i-th battery pack
 * S_bar_total — Average effective SOC across all connected battery packs (rendered as $\bar{S}_{total}$ in LaTeX-supported contexts)
 * S_pack,i — Current effective SOC of the i-th battery pack
 * Independent computation statement — This formula is an upper-layer software selection weight, computed independently of the physical specifications of the CWP-Battery-Swap docking device.
+
+---
 
 **Chapter 6: Prior Art References, Internal Linkage, and Clarification of Distinctiveness**
 
@@ -92,6 +103,8 @@ The normalized weighting model applied when numerical normalization is required 
 
 This white paper does not aim to assert exclusive patent claims over the hardware mechanism itself. The distinctiveness of this proposal lies in a defensive technical disclosure that conceptually maps soma-moa's proprietary W_{batt} leveling and intermittent micro-rotation anti-freezing governance, from a software and system-architecture perspective, on top of the CWP-Battery-Swap docking structure.
 
+---
+
 **Chapter 7: Practical Protection and Legal Notice (Defensive Rights & Legal Notice)**
 
 *1. Modesty Declaration*
@@ -100,8 +113,8 @@ The technical concepts, system architecture, and formula models stated in this w
 *2. AS-IS Statement*
 All content, design concepts, and mathematical reasoning in this white paper are provided AS-IS. The author makes no express or implied warranty as to the completeness, fitness for a particular purpose, commercial viability, or absence of errors of the content described herein.
 
-*3. Non-Patent Notice and DPL Declaration (Non-Patent / Defensive Publication & DPL)*
-This white paper is not prepared for the purpose of establishing exclusive patent rights or asserting technical monopoly. This publication is released under CC BY 4.0 and the DPL (Defensive Publication License v1.0), and is intended as a defensive publication invoking prior art to advance public survival-infrastructure research and mitigate the risk of unauthorized patent appropriation by third parties. Under the DPL terms, any party invoking this technical concept may not assert exclusive patent rights over it.
+*3. Non-Patent Notice and Dual-License Declaration (Non-Patent & Dual License Declaration)*
+This white paper is not prepared for the purpose of establishing exclusive patent rights or asserting technical monopoly. The textual expressions of this document are released under Creative Commons Attribution 4.0 International (CC BY 4.0), and a dual-licensing model under Apache License 2.0 (Apache-2.0) is applied to derivative code and execution implementations. The author (deundeuni / soma-moa) asserts no exclusive patent rights regarding the ideas described in this document, and intends a prior-art defensive publication to advance public survival-infrastructure research and mitigate the risk of unauthorized patent appropriation by third parties. Detailed license terms follow the LICENSE file in this repository.
 
 *4. Originality Clause*
 The Korean original is the authoritative text; translations are for reference only. In the event of any interpretive or semantic ambiguity in this document, the context and expression of the Korean original shall govern.
@@ -111,6 +124,8 @@ The conception of the problem addressed by this idea, the proposal of CWP-Batter
 
 *6. Notice Regarding Use of Software and AI Utilities (Software Utility Limitation)*
 The software and AI tools used in the drafting and review of this white paper were confined to the role of Passive Execution Utility — performing contextual refinement, whitepaper formatting, logical structuring, and prior-art reference cross-checking — based on the original architecture and survival-infrastructure sharing logic conceived and defined by the architect (deundeuni). This notice is provided for legal transparency (Thaler v. Vidal, USPTO AI Inventorship Guidance, EPO G-II 3.3.1), and all creative substance, design intent, structural combination rights, and prior-art disclosure authority of this architecture belong exclusively to the human architect (deundeuni).
+
+---
 
 **Chapter 8: Sources and References**
 
@@ -129,6 +144,8 @@ The software and AI tools used in the drafting and review of this white paper we
 * deundeunilab — Distributed-Survival-Energy-Sharing-Network (v1.5, distributed mesh sharing infrastructure white paper)
 * Functional Safety and Quality Standards — ISO 13849-1 Cat 4 PL e, IEC 61508 SIL3
 
+---
+
 **Chapter 9: Revision History**
 
-* v1.0 Final (2026-09-26) — Completion of final Take2 reflection. Directly inserted the base formula (W_{batt,i} = max(0, S_bar_total − S_pack,i)) and the normalized formula (W_{batt,i} = (S_bar_total − S_pack,i) / S_bar_total) into the body of Chapter 5; unified all instances of "CWP-Battery-Swap" to hyphenated form throughout the document; replaced the S̄_total notation with a rendering-safe S_bar_total form (with LaTeX equivalent noted) to prevent Markdown display errors; reinforced bibliographic details for the four cited prior-art references in Chapter 8; incorporated the KIPRIS-confirmed final rejection grounds (lack of inventive step, finalized 2004-04-28) and the 2012 citation history for the rejected publication (KR10-2001-0053676); added a footnote addressing the consistency between the examiner's grounds for rejection and this white paper's "combination of publicly known techniques" defensive logic; maintained the fixed "Practical Protection" section title in Chapter 7 and the consistent non-expansion convention for the CWP abbreviation throughout.
+* v1.0 Final (2026-09-26) — Completion of final Take2 reflection. Directly inserted the base formula ($W_{batt,i} = \max(0, S_{bar\_total} - S_{pack,i})$) and the normalized formula ($W_{batt,i} = \frac{S_{bar\_total} - S_{pack,i}}{S_{bar\_total}}$) into the body of Chapter 5; unified all instances of "CWP-Battery-Swap" to hyphenated form throughout the document; replaced the S̄_total notation with a rendering-safe S_bar_total form (with LaTeX equivalent noted) to prevent Markdown display errors; reinforced bibliographic details for the four cited prior-art references in Chapter 8; incorporated the KIPRIS-confirmed final rejection grounds (lack of inventive step, finalized 2004-04-28) and the 2012 citation history for the rejected publication (KR10-2001-0053676); added a footnote addressing the consistency between the examiner's grounds for rejection and this white paper's "combination of publicly known techniques" defensive logic; maintained the fixed "Practical Protection" section title in Chapter 7; fully reflected the dual-licensing scheme of CC BY 4.0 (textual content) and Apache License 2.0 (derived code and execution implementations) alongside the explicit non-assertion of exclusive patent rights.
