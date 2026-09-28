@@ -1,22 +1,23 @@
-
----
-
-[Idea White Paper] W_{batt} 잔량 평준화 알고리즘 기반 CWP 배터리 스왑 물리 실행 및 생존 거버넌스 매핑
+# [Idea White Paper] W_{batt} 잔량 평준화 알고리즘 기반 CWP 배터리 스왑 물리 실행 및 생존 거버넌스 매핑
 
 원안 설계: deundeuni (Human Architect) | 소속 조직: deundeunilab
 저장소/식별명: Battery-Software-Logic-Survival-Governance-Mapping-Paper | 최초 기록일 및 선행기술 선언일: 2026-09-26
 문서 성격: Idea White Paper (Track 2) | 버전: v1.0 Final (Take2 최종 반영본)
 철학적 계보: soma-moa '함께생존' 계승 및 CWP-Battery-Swap / POWER_SURVIVAL_SPEC 연계
 기술 프로토콜 식별자: Battery-Software-Logic-Survival-Governance-Mapping-Paper
-라이선스: Creative Commons Attribution 4.0 International (CC BY 4.0) 및 DPL (방어적 공개 라이선스)
+라이선스: CC BY 4.0 (텍스트) / Apache License 2.0 (파생 코드 및 실행 구현물)
 작성 유틸리티: Passive Execution & Structuring Utilities (수동적 실행 및 구조화 도구)
 원본 조항: 한국어 원문이 기준 원본이며, 번역본은 참고용이다.
+
+---
 
 **제1장: 개요 및 철학적 배경**
 
 본 백서는 분산 기기 및 이동체 시스템의 비상 가동 환경에서, 배터리 팩 잔량 최소화 구역을 우선하여 평준화하는 상위 소프트웨어 알고리즘(W_{batt})과 하드웨어 저충격 도킹 메커니즘(CWP-Battery-Swap) 간의 계층적 매핑 구조 및 생존 거버넌스를 정립하는 데 목적을 둡니다.
 
 단일 배터리 팩 중심의 고전력 직결 구조는 국소 셀 열화나 전원 고사 발생 시 시스템 전체의 즉각적 정지(System Blackout)로 이어지는 구조적 리스크를 내재하고 있습니다. 본 제안은 특정한 화학적 셀 조성이나 단일 독점 하드웨어를 발명하는 것을 목적으로 하지 않으며, 소프트웨어적 잔량 평준화 선정 로직과 하드웨어적 물리 스왑 실행부를 명확히 분리(SW-HW Layer Decoupling)함으로써 시스템 생존성을 극대화하고 독립적인 방어적 권리 범위를 확보하도록 설계되었습니다.
+
+---
 
 **제2장: SW-HW 계층 분리 구조 및 CWP-Battery-Swap 공정 체인 경계 정의**
 
@@ -32,6 +33,8 @@
 * 본문 로직과의 격리 서술 — CWP-Battery-Swap 공정 체인은 본문 W_{batt} 소프트웨어 선정 알고리즘과 직접적인 인과 상충을 유발하지 않도록 배경 설명 및 각주 구역에 격리하여 배치합니다.
 * 각주 반영 문구 — CWP-Battery-Swap은 CWP-Entry 및 CWP-Rolling-Self-Align의 연속 공정 위에서 동작하는 최종 교체 단계이며, 본 문서는 이 교체 단계에서의 W_{batt} 물리적 실행만을 다룹니다.
 
+---
+
 **제3장: 극지 동결방지(Anti-Freezing) 및 Always-On 판단 도메인**
 
 *1. 비접촉 센싱 기반 트리거 로직 (Chiplet / Always-On SOS 계층)*
@@ -44,6 +47,8 @@
 * 간헐적 저전력 마이크로 회전 적용 — 지속적인 공회전을 지향하지 않으며, soma-moa 전력절약 원칙(사유 유휴 창, 조기 절단)과 정합성을 갖추는 간헐적 저전력 마이크로 회전을 수행합니다.
 * 기계적 스코프 명확화 — 본 구동은 배터리 내부 셀 화학 반응이나 전해질 상태를 다루지 않으며, 도킹 메커니즘 관절부의 결빙 및 물리적 굳어짐 현상을 예방적으로 완화하는 하부 기계적 보호 제어로 한정합니다.
 
+---
+
 **제4장: 최저 잔량 우선 평준화(W_{batt}) 및 분산 생존 제어**
 
 *1. W_{batt} 평준화 알고리즘의 실행 매핑*
@@ -51,22 +56,26 @@
 * 최저 잔량 팩 우선 수용 — 분산 탑재된 복수의 배터리 모듈 중 유효 SOC가 가장 낮은 구역을 W_{batt} 알고리즘이 우선 지정하여 CWP-Battery-Swap 도킹 및 전력 충·방전 평준화 대상으로 지정합니다.
 * 국소 고사 방지 — 특정 배터리 모듈에 전력 부하가 집중되어 시스템 전체가 다운되는 현상을 방지하고, 모듈 간 전력 균형을 최우선 유지하도록 제어합니다.
 
+---
+
 **제5장: 수학적 가중치 모델 및 제어 매핑**
 
 *1. 배터리 팩 전력 평준화 가중치 수식 (W_{batt, i})*
 
 복수의 배터리 팩 i 중 CWP-Battery-Swap 도킹 물리 스왑 및 우선 전력 평준화 대상 팩을 선정하는 기본 수식 모델은 다음과 같습니다.
 
-**W_{batt,i} = max(0, S_bar_total − S_pack,i)**
+$$W_{batt,i} = \max(0, S_{bar\_total} - S_{pack,i})$$
 
-상위 제어 시스템의 수치 정규화가 필요할 경우 적용되는 정규화 수식 모델(S_pack,i < S_bar_total일 때만 적용)은 다음과 같습니다.
+상위 제어 시스템의 수치 정규화가 필요할 경우 적용되는 정규화 수식 모델($S_{pack,i} < S_{bar\_total}$일 때만 적용)은 다음과 같습니다.
 
-**W_{batt,i} = (S_bar_total − S_pack,i) / S_bar_total**
+$$W_{batt,i} = \frac{S_{bar\_total} - S_{pack,i}}{S_{bar\_total}}$$
 
 * W_{batt,i} — i번째 배터리 팩의 우선 교체 및 평준화 가중치
 * S_bar_total — 전체 연계 배터리 팩들의 평균 유효 SOC (LaTeX 지원 환경에서는 $\bar{S}_{total}$로 표기)
 * S_pack,i — i번째 배터리 팩의 현재 유효 SOC
 * 독립 연산 명시 — 본 수식은 상위 소프트웨어 선정 가중치이며, CWP-Battery-Swap 도킹 장치의 물리적 스펙과 독립적으로 연산됩니다.
+
+---
 
 **제6장: 선행기술 참조, 내부 연계 및 차별성 명확화**
 
@@ -88,6 +97,8 @@
 
 본 백서는 하드웨어 메커니즘 자체의 독점적 특허 청구를 목적으로 하지 않습니다. 본 제안의 차별성은 CWP-Battery-Swap 도킹 구조 상위에서 soma-moa 고유의 W_{batt} 평준화 및 간헐적 마이크로 회전 동결방지 거버넌스를 소프트웨어 및 시스템 구조 관점에서 개념적으로 매핑 가능한 형태로 정립한 방어적 기술 공개에 있습니다.
 
+---
+
 **제7장: 실리보호 및 법적 고지 (Defensive Rights & Legal Notice)**
 
 *1. 겸양고지 (Modesty Declaration)*
@@ -96,8 +107,8 @@
 *2. 현 상태 그대로 제공 (AS-IS Statement)*
 본 백서의 모든 내용, 설계 구상 및 수학적 추론은 있는 그대로(AS-IS) 제공됩니다. 작성자는 본 문서에 기재된 내용의 완벽성, 특정 목적에 대한 적합성, 상용성 또는 오류 부재를 명시적·묵시적으로 보증하지 않습니다.
 
-*3. 특허 미해당 고지 및 DPL 선언 (Non-Patent / Defensive Publication & DPL)*
-본 백서는 독점적인 특허 권리를 설정하거나 기술적 독점을 주장하기 위한 목적으로 작성되지 않았습니다. 본 출고는 CC BY 4.0 및 DPL(Defensive Publication License v1.0)에 따라 공개되며, 공공의 생존 인프라 연구 발전 및 제3자에 의한 무단 특허 사유화 위험을 완화하기 위한 선행기술 원용 방어용 공개를 지향합니다. DPL 조항에 따라 본 기술 사상을 원용하는 주체는 해당 사상에 대해 배타적 특허 권리를 주장할 수 없습니다.
+*3. 특허 미해당 고지 및 라이선스 선언 (Non-Patent & Dual License Declaration)*
+본 백서는 독점적인 특허 권리를 설정하거나 기술적 독점을 주장하기 위한 목적으로 작성되지 않았습니다. 본 문서의 텍스트 표현물은 Creative Commons Attribution 4.0 International (CC BY 4.0)에 따라 공개되며, 파생 코드 및 실행 구현물에는 Apache License 2.0 (Apache-2.0)을 이원화 적용합니다. 저자(deundeuni / soma-moa)는 본 문서에 기술된 아이디어에 대해 어떠한 배타적 특허권도 주장하지 않으며, 공공의 생존 인프라 연구 발전 및 제3자에 의한 무단 특허 사유화 위험을 완화하기 위한 선행기술 원용 방어용 공개를 지향합니다. 상세 라이선스 조건은 본 저장소의 LICENSE 파일을 따릅니다.
 
 *4. 기준 원본 조항 (Originality Clause)*
 한국어 원문이 기준 원본, 번역본은 참고용입니다. 본 문서의 해석이나 의미상의 혼선이 발생하는 경우, 한국어 원문의 문맥 및 표현을 최우선 기준으로 정합니다.
@@ -107,6 +118,8 @@
 
 *6. 소프트웨어 및 AI 유틸리티 활용에 관한 명시 (Software Utility Limitation)*
 본 백서 작성 및 검토 과정에서 활용된 소프트웨어 및 AI 도구는 설계자(deundeuni)가 구상하고 정의한 독자 아키텍처와 생존 인프라 공유 논리를 바탕으로 문맥 정제, 백서 포맷팅, 논리적 구조화 및 선행기술 참조 대조를 수행한 수동적 실행 유틸리티(Passive Execution Utility)에 국한됩니다. 본 고지는 법리적(Thaler v. Vidal, USPTO AI Inventorship Guidance, EPO G-II 3.3.1) 투명성을 위한 것이며, 본 아키텍처의 모든 창의적 본질, 설계 의도, 구조적 결합권 및 선행기술 공개 권한은 전적으로 인간 설계자(deundeuni)에게 귀속됩니다.
+
+---
 
 **제8장: 출처 및 참고문헌 (Sources & References)**
 
@@ -125,6 +138,8 @@
 * deundeunilab — Distributed-Survival-Energy-Sharing-Network (v1.5, 분산 메쉬 공유 인프라 백서)
 * 기능안전 및 품질 규격 — ISO 13849-1 Cat 4 PL e, IEC 61508 SIL3
 
+---
+
 **제9장: 버전 변경 이력 (Revision History)**
 
-* v1.0 Final (2026-09-26) — Take2 최종 반영 완료. 제5장 본문에 기본 수식(W_{batt,i} = max(0, S_bar_total − S_pack,i)) 및 정규화 수식(W_{batt,i} = (S_bar_total − S_pack,i) / S_bar_total) 직접 삽입, S̄_total 표기를 GitHub 마크다운 렌더링 안전을 위해 S_bar_total로 정정(LaTeX 지원 환경용 병기 유지), 전 문서에 걸쳐 CWP-Battery-Swap 하이픈 표기 통일, 제8장 선행특허 4건 서지사항 보강, 거절공보(KR10-2001-0053676) KIPRIS 최종 거절사유(진보성 결여, 2004-04-28 확정) 및 2012년 피인용 이력 반영, 심사관 판단 근거와 백서의 '공지기술 조합' 방어논리 정합성을 다룬 각주 명시, 제7장 '실리보호' 고정 섹션명 유지 적용 완료.
+* v1.0 Final (2026-09-26) — Take2 최종 반영 완료. 제5장 본문에 기본 수식($W_{batt,i} = \max(0, S_{bar\_total} - S_{pack,i})$) 및 정규화 수식($W_{batt,i} = \frac{S_{bar\_total} - S_{pack,i}}{S_{bar\_total}}$) 직접 삽입, $\bar{S}_{total}$ 표기를 GitHub 마크다운 렌더링 안전을 위해 S_bar_total로 정정(LaTeX 지원 환경용 병기 유지), 전 문서에 걸쳐 CWP-Battery-Swap 하이픈 표기 통일, 제8장 선행특허 4건 서지사항 보강, 거절공보(KR10-2001-0053676) KIPRIS 최종 거절사유(진보성 결여, 2004-04-28 확정) 및 2012년 피인용 이력 반영, 심사관 판단 근거와 백서의 '공지기술 조합' 방어논리 정합성을 다룬 각주 명시, 제7장 '실리보호' 고정 섹션명 유지, CC BY 4.0(텍스트) 및 Apache License 2.0(파생 코드 및 실행 구현물) 이원화 라이선스 및 특허 비주장 명시 반영 완료.
